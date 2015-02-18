@@ -21,6 +21,30 @@ describe('hazdev-weblib generator', function () {
 
 	it('creates expected files', function (done) {
 		var expected = [
+			'example/example.html',
+			'example/css/example.css',
+			'example/js/example.js',
+
+			'gruntconfig/browserify.js',
+			'gruntconfig/clean.js',
+			'gruntconfig/compass.js',
+			'gruntconfig/concurrent.js',
+			'gruntconfig/config.js',
+			'gruntconfig/connect.js',
+			'gruntconfig/copy.js',
+			'gruntconfig/cssmin.js',
+			'gruntconfig/imagemin.js',
+			'gruntconfig/index.js',
+			'gruntconfig/jshint.js',
+			'gruntconfig/mocha_phantomjs.js',
+			'gruntconfig/uglify.js',
+			'gruntconfig/watch.js',
+
+			'src/test-app.scss',
+
+			'test/test.html',
+			'test/test.js',
+
 			'package.json',
 			'README.md',
 			'test-app.sublime-project',
@@ -30,15 +54,13 @@ describe('hazdev-weblib generator', function () {
 			'.jshintrc',
 			'Gruntfile.js',
 
-			'test/index.html',
-			'test/index.js'
 		];
 
 		helpers.mockPrompt(this.app, {
 			'appName': 'test-app',
 			'appDesc': 'A cool test app.',
 			'appHasGit': true,
-			'appRepo': 'https://github.com/emartinez-usgs/generator-hazdev-weblib.git'
+			'appRepo': 'https://github.com/usgs/test-app.git'
 		});
 		this.app.options['skip-install'] = true;
 		this.app.run({}, function () {
