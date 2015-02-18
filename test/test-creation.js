@@ -23,9 +23,7 @@ describe('hazdev-weblib generator', function () {
 		var expected = [
 			'package.json',
 			'README.md',
-			'bower.json',
 			'test-app.sublime-project',
-			'.bowerrc',
 			'.editorconfig',
 			'.gitattributes',
 			'.gitignore',

@@ -6,7 +6,7 @@ var _ = require('underscore.string');
 
 
 var HazdevWebappGenerator = module.exports = function HazdevWebappGenerator (
-		args, options, config) {
+		args, options/*, config*/) {
 	yeoman.generators.Base.apply(this, arguments);
 
 	this.on('end', function () {
@@ -99,7 +99,6 @@ HazdevWebappGenerator.prototype.templatefiles = function templatefiles () {
 	// Templates for project setup
 	this.template('_package.json', 'package.json');
 	this.template('_README.md', 'README.md');
-	this.copy('_bower.json', 'bower.json');
 	this.template('_projectfile.sublime-project', 
 			_.slugify(this.appName) + '.sublime-project');
 
@@ -108,7 +107,6 @@ HazdevWebappGenerator.prototype.templatefiles = function templatefiles () {
 HazdevWebappGenerator.prototype.staticfiles = function staticfiles () {
 
 	// Files for project setup
-	this.copy('bowerrc', '.bowerrc');
 	this.copy('editorconfig', '.editorconfig');
 	this.copy('gitattributes', '.gitattributes');
 	this.copy('gitignore', '.gitignore');
