@@ -47,6 +47,10 @@ HazdevWebappGenerator.prototype.askFor = function askFor () {
 
 	this.prompt(prompts, function (props) {
 		this.appName = props.appName;
+		this.appShortName = props.appName
+				.replace('hazdev-', '')
+				.replace('earthquake-', '')
+				.replace('-', '');
 		this.appDesc = props.appDesc;
 		this.appHasGit = props.appHasGit;
 
@@ -79,7 +83,7 @@ HazdevWebappGenerator.prototype.askForMore = function askForMore () {
 				type: 'git',
 				url: '' + props.appRepo
 			};
-			this.appRepoInfo = "\n\t\"repository\": " +
+			this.appRepoInfo = '\n\t"repository": ' +
 					JSON.stringify(appRepo) + ',';
 
 			cb();
@@ -88,7 +92,13 @@ HazdevWebappGenerator.prototype.askForMore = function askForMore () {
 };
 
 HazdevWebappGenerator.prototype.directories = function directories () {
+
+	this.mkdir('example');
+
+	this.mkdir('gruntconfig');
+
 	this.mkdir('src');
+	this.mkdir('src/' + this.appShortName);
 
 	this.mkdir('test');
 	this.mkdir('test/spec');
@@ -96,15 +106,49 @@ HazdevWebappGenerator.prototype.directories = function directories () {
 
 HazdevWebappGenerator.prototype.templatefiles = function templatefiles () {
 
+	// Example files
+	this.template('example/_example.html', 'example/example.html');
+
+	// Gruntconfig files
+	this.template('gruntconfig/_config.js', 'gruntconfig/config.js');
+
+	// Source files
+	this.template('src/_bundle.scss', 'src/' + this.appName + '.scss');
+
+	// Test files
+	this.template('test/_test.html', 'test/test.html');
+
 	// Templates for project setup
 	this.template('_package.json', 'package.json');
 	this.template('_README.md', 'README.md');
-	this.template('_projectfile.sublime-project', 
+	this.template('_projectfile.sublime-project',
 			_.slugify(this.appName) + '.sublime-project');
 
 };
 
 HazdevWebappGenerator.prototype.staticfiles = function staticfiles () {
+
+	// Example files
+	this.copy('example/css/example.css', 'example/css/example.css');
+	this.copy('example/js/example.js', 'example/js/example.js');
+
+	// Gruntconfig files
+	this.copy('gruntconfig/browserify.js', 'gruntconfig/browserify.js');
+	this.copy('gruntconfig/clean.js', 'gruntconfig/clean.js');
+	this.copy('gruntconfig/compass.js', 'gruntconfig/compass.js');
+	this.copy('gruntconfig/concurrent.js', 'gruntconfig/concurrent.js');
+	this.copy('gruntconfig/connect.js', 'gruntconfig/connect.js');
+	this.copy('gruntconfig/copy.js', 'gruntconfig/copy.js');
+	this.copy('gruntconfig/cssmin.js', 'gruntconfig/cssmin.js');
+	this.copy('gruntconfig/imagemin.js', 'gruntconfig/imagemin.js');
+	this.copy('gruntconfig/index.js', 'gruntconfig/index.js');
+	this.copy('gruntconfig/jshint.js', 'gruntconfig/jshint.js');
+	this.copy('gruntconfig/mocha_phantomjs.js', 'gruntconfig/mocha_phantomjs.js');
+	this.copy('gruntconfig/uglify.js', 'gruntconfig/uglify.js');
+	this.copy('gruntconfig/watch.js', 'gruntconfig/watch.js');
+
+	// Files for testing
+	this.copy('test/test.js', 'test/test.js');
 
 	// Files for project setup
 	this.copy('editorconfig', '.editorconfig');
@@ -114,8 +158,4 @@ HazdevWebappGenerator.prototype.staticfiles = function staticfiles () {
 	this.copy('travis.yml', '.travis.yml');
 	this.copy('Gruntfile.js', 'Gruntfile.js');
 	this.copy('LICENSE.md', 'LICENSE.md');
-
-	// Files for testing
-	this.copy('test/index.html', 'test/index.html');
-	this.copy('test/index.js', 'test/index.js');
 };
